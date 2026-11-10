@@ -1,0 +1,22 @@
+digraph G {
+graph [rankdir=TB,bgcolor="white",nodesep=.3,ranksep=.28,splines=polyline]; node [shape=box,fontname="DejaVu Sans",fontsize=12,style=filled,fillcolor="#edf3f8"]; edge [fontname="DejaVu Sans",fontsize=10];
+start [shape=oval,label="Start"]; load [shape=parallelogram,label="Load / validate data; build blocks"];
+order [label="Fixed-time blocks first;
+then sorted flexible blocks"];
+more [shape=diamond,label="Next block?"]; select [label="Select block; create allowed intervals
+(fixed block: required time only)"];
+slot [shape=diamond,label="Next interval?"]; roominit [label="Take interval; filter allowed rooms
+(type, capacity, mandatory room)"];
+room [shape=diamond,label="Next room?"]; check [label="Take room; check hard constraints
+and mandatory requests"];
+valid [shape=diamond,label="Hard rules pass?"]; assign [label="Assign; log soft warnings"];
+fail [label="Record unassigned block
+and NO ROOM / CONSTRAINT reason"];
+report [shape=parallelogram,label="Display schedules, failures, warnings"];
+end [shape=oval,label="End"];
+start -> load -> order -> more; more -> select [label="Yes"]; more -> report [label="No"];
+select -> slot; slot -> roominit [label="Yes"]; slot -> fail [label="No"];
+roominit -> room; room -> check [label="Yes"]; room:w -> slot:w [label="No",constraint=false];
+check -> valid; valid -> assign [label="Yes"]; valid:w -> room:w [label="No",constraint=false];
+assign:e -> more:e [constraint=false]; fail:e -> more:e [constraint=false]; report -> end;
+}

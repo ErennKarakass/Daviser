@@ -1,0 +1,510 @@
+{
+  "TimeSlot": {
+    "fields": [
+      [
+        "int",
+        "day"
+      ],
+      [
+        "int",
+        "startHour"
+      ],
+      [
+        "int",
+        "duration"
+      ]
+    ],
+    "methods": [
+      [
+        "public TimeSlot(int day, int startHour, int duration)",
+        "if (day < 1 || day > 5 || startHour < 9 || duration < 1 || startHour + duration > 17) throw new IllegalArgumentException(\"Invalid working-time block.\");\nthis.day = day; this.startHour = startHour; this.duration = duration;"
+      ],
+      [
+        "public int getDay()",
+        "return day;"
+      ],
+      [
+        "public int getStartHour()",
+        "return startHour;"
+      ],
+      [
+        "public int getDuration()",
+        "return duration;"
+      ],
+      [
+        "public boolean overlapsWith(TimeSlot other)",
+        "return day == other.day && startHour < other.startHour + other.duration && other.startHour < startHour + duration;"
+      ]
+    ],
+    "role": "Stores one consecutive teaching interval; validates bounds and checks overlap."
+  },
+  "Instructor": {
+    "fields": [
+      [
+        "String",
+        "id"
+      ],
+      [
+        "String",
+        "name"
+      ],
+      [
+        "List<TimeSlot>",
+        "unavailableSlots"
+      ],
+      [
+        "List<TimeSlot>",
+        "preferredSlots"
+      ]
+    ],
+    "methods": [
+      [
+        "public Instructor(String id, String name)",
+        "this.id = id; this.name = name; unavailableSlots = new ArrayList<>(); preferredSlots = new ArrayList<>();"
+      ],
+      [
+        "public String getId()",
+        "return id;"
+      ],
+      [
+        "public String getName()",
+        "return name;"
+      ],
+      [
+        "public boolean isAvailable(TimeSlot slot)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public boolean prefers(TimeSlot slot)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ]
+    ],
+    "role": "Stores instructor identity, unavailability and preferences; availability logic is planned."
+  },
+  "Room": {
+    "fields": [
+      [
+        "String",
+        "id"
+      ],
+      [
+        "String",
+        "type"
+      ],
+      [
+        "int",
+        "capacity"
+      ],
+      [
+        "List<TimeSlot>",
+        "unavailableSlots"
+      ]
+    ],
+    "methods": [
+      [
+        "public Room(String id, String type, int capacity)",
+        "this.id = id; this.type = type; this.capacity = capacity; unavailableSlots = new ArrayList<>();"
+      ],
+      [
+        "public String getId()",
+        "return id;"
+      ],
+      [
+        "public String getType()",
+        "return type;"
+      ],
+      [
+        "public int getCapacity()",
+        "return capacity;"
+      ],
+      [
+        "public boolean isSuitableFor(Session session)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public boolean isAvailable(TimeSlot slot)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ]
+    ],
+    "role": "Stores room identity, type, capacity and availability; suitability checks are planned."
+  },
+  "Course": {
+    "fields": [
+      [
+        "String",
+        "code"
+      ],
+      [
+        "String",
+        "title"
+      ],
+      [
+        "int",
+        "year"
+      ],
+      [
+        "Instructor",
+        "instructor"
+      ],
+      [
+        "int",
+        "theoryHours"
+      ],
+      [
+        "int",
+        "labHours"
+      ],
+      [
+        "int",
+        "students"
+      ]
+    ],
+    "methods": [
+      [
+        "public Course(String code, String title, int year, Instructor instructor, int theoryHours, int labHours, int students)",
+        "this.code = code; this.title = title; this.year = year; this.instructor = instructor; this.theoryHours = theoryHours; this.labHours = labHours; this.students = students;"
+      ],
+      [
+        "public String getCode()",
+        "return code;"
+      ],
+      [
+        "public String getTitle()",
+        "return title;"
+      ],
+      [
+        "public int getYear()",
+        "return year;"
+      ],
+      [
+        "public Instructor getInstructor()",
+        "return instructor;"
+      ],
+      [
+        "public int getStudents()",
+        "return students;"
+      ],
+      [
+        "public List<Session> createSessions()",
+        "List<Session> result = new ArrayList<>();\nif (theoryHours > 0) result.add(new Session(this, \"T\", theoryHours));\nif (labHours > 0) result.add(new Session(this, \"L\", labHours));\nreturn result;"
+      ]
+    ],
+    "role": "Stores a course and creates a fresh theory/laboratory block list when requested."
+  },
+  "Session": {
+    "fields": [
+      [
+        "Course",
+        "course"
+      ],
+      [
+        "String",
+        "type"
+      ],
+      [
+        "int",
+        "duration"
+      ],
+      [
+        "TimeSlot",
+        "assignedSlot"
+      ],
+      [
+        "Room",
+        "assignedRoom"
+      ]
+    ],
+    "methods": [
+      [
+        "public Session(Course course, String type, int duration)",
+        "this.course = course; this.type = type; this.duration = duration;"
+      ],
+      [
+        "public String getId()",
+        "return course.getCode() + \"-\" + type;"
+      ],
+      [
+        "public Course getCourse()",
+        "return course;"
+      ],
+      [
+        "public int getDuration()",
+        "return duration;"
+      ],
+      [
+        "public String getRequiredRoomType()",
+        "return type.equals(\"L\") ? \"Laboratory\" : \"Classroom\";"
+      ],
+      [
+        "public boolean isAssigned()",
+        "return assignedSlot != null && assignedRoom != null;"
+      ],
+      [
+        "public TimeSlot getAssignedSlot()",
+        "return assignedSlot;"
+      ],
+      [
+        "public Room getAssignedRoom()",
+        "return assignedRoom;"
+      ],
+      [
+        "public void setAssignment(TimeSlot slot, Room room)",
+        "assignedSlot = slot; assignedRoom = room;"
+      ],
+      [
+        "public void clearAssignment()",
+        "assignedSlot = null; assignedRoom = null;"
+      ]
+    ],
+    "role": "Stores one teaching block and its optional assignment; only the planned validated Timetable operations may assign it in the user workflow."
+  },
+  "SpecialRequest": {
+    "fields": [
+      [
+        "String",
+        "sessionId"
+      ],
+      [
+        "String",
+        "requestType"
+      ],
+      [
+        "String",
+        "value"
+      ],
+      [
+        "boolean",
+        "mandatory"
+      ]
+    ],
+    "methods": [
+      [
+        "public SpecialRequest(String sessionId, String requestType, String value, boolean mandatory)",
+        "this.sessionId = sessionId; this.requestType = requestType; this.value = value; this.mandatory = mandatory;"
+      ],
+      [
+        "public String getSessionId()",
+        "return sessionId;"
+      ],
+      [
+        "public String getRequestType()",
+        "return requestType;"
+      ],
+      [
+        "public String getValue()",
+        "return value;"
+      ],
+      [
+        "public boolean isMandatory()",
+        "return mandatory;"
+      ]
+    ],
+    "role": "Represents a block-specific scheduling request and its mandatory/preferred classification."
+  },
+  "FileDataReader": {
+    "fields": [],
+    "methods": [
+      [
+        "public FileDataReader()",
+        ""
+      ],
+      [
+        "public Map<String, Instructor> loadInstructors(String path)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public List<Course> loadCourses(String path, Map<String, Instructor> instructors)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public List<Room> loadRooms(String path)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public List<SpecialRequest> loadRequests(String path, List<Session> sessions)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ]
+    ],
+    "role": "Will parse and validate four input files in dependency order; all reader methods are stubs."
+  },
+  "Timetable": {
+    "fields": [
+      [
+        "List<Session>",
+        "sessions"
+      ]
+    ],
+    "methods": [
+      [
+        "public Timetable()",
+        "sessions = new ArrayList<>();"
+      ],
+      [
+        "public List<Session> getSessions()",
+        "return Collections.unmodifiableList(sessions);"
+      ],
+      [
+        "public void setSessions(List<Session> sessions)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public void assign(Session session, TimeSlot slot, Room room, ConstraintChecker checker)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public void modifyAssignment(Session session, TimeSlot slot, Room room, ConstraintChecker checker)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public void removeAssignment(Session session)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ]
+    ],
+    "role": "Will hold the canonical session list and manage validated assignments, moves and removals."
+  },
+  "ConstraintChecker": {
+    "fields": [
+      [
+        "Timetable",
+        "timetable"
+      ],
+      [
+        "List<SpecialRequest>",
+        "requests"
+      ]
+    ],
+    "methods": [
+      [
+        "public ConstraintChecker(Timetable timetable, List<SpecialRequest> requests)",
+        "this.timetable = timetable; this.requests = requests;"
+      ],
+      [
+        "public List<String> checkHard(Session session, TimeSlot slot, Room room)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public List<String> checkSoft(Session session, TimeSlot slot, Room room)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ]
+    ],
+    "role": "Will return all relevant hard-rule failures or soft warnings for a proposed assignment."
+  },
+  "Scheduler": {
+    "fields": [
+      [
+        "Timetable",
+        "timetable"
+      ],
+      [
+        "ConstraintChecker",
+        "checker"
+      ],
+      [
+        "List<Room>",
+        "rooms"
+      ],
+      [
+        "List<SpecialRequest>",
+        "requests"
+      ],
+      [
+        "Map<Session, String>",
+        "failures"
+      ],
+      [
+        "List<String>",
+        "warnings"
+      ]
+    ],
+    "methods": [
+      [
+        "public Scheduler(Timetable timetable, ConstraintChecker checker, List<Room> rooms, List<SpecialRequest> requests)",
+        "this.timetable = timetable; this.checker = checker; this.rooms = rooms; this.requests = requests; failures = new LinkedHashMap<>(); warnings = new ArrayList<>();"
+      ],
+      [
+        "public void generateTimetable()",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public Map<Session, String> getFailures()",
+        "return Collections.unmodifiableMap(failures);"
+      ],
+      [
+        "public List<String> getWarnings()",
+        "return Collections.unmodifiableList(warnings);"
+      ]
+    ],
+    "role": "Will run first-fit scheduling, retain failure reasons and collect preference warnings."
+  },
+  "ClassroomRequestGen": {
+    "fields": [],
+    "methods": [
+      [
+        "public ClassroomRequestGen()",
+        ""
+      ],
+      [
+        "public String generateDraft(Session session, TimeSlot suggestedSlot)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public void saveToFile(String draft, String path)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ]
+    ],
+    "role": "Will create and save text-only room requests for confirmed room-shortage cases."
+  },
+  "ReportWriter": {
+    "fields": [],
+    "methods": [
+      [
+        "public ReportWriter()",
+        ""
+      ],
+      [
+        "public String renderYear(Timetable timetable, int year)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public String renderScheduled(Timetable timetable)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public String renderProblems(Scheduler scheduler)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ],
+      [
+        "public void saveAll(Timetable timetable, Scheduler scheduler, String directory)",
+        "throw new UnsupportedOperationException(\"Planned feature: not implemented in Code v1.\");"
+      ]
+    ],
+    "role": "Will format timetables, scheduled lists, failure reports and output files."
+  },
+  "Main": {
+    "fields": [
+      [
+        "Scanner",
+        "input"
+      ]
+    ],
+    "methods": [
+      [
+        "public Main()",
+        "input = new Scanner(System.in);"
+      ],
+      [
+        "public static void main(String[] args)",
+        "Main app = new Main();\nwhile (true) {\n    app.printMenu();\n    if (!app.input.hasNextLine()) { System.out.println(\"Input closed. Goodbye.\"); break; }\n    String line = app.input.nextLine().trim();\n    try {\n        int choice = Integer.parseInt(line);\n        if (choice == 0) { System.out.println(\"Goodbye.\"); break; }\n        app.handleChoice(choice);\n    } catch (NumberFormatException ex) {\n        System.out.println(\"Please enter a number from the menu.\");\n    }\n}"
+      ],
+      [
+        "private void printMenu()",
+        "System.out.println(\"\\nDEPARTMENT COURSE TIMETABLE MANAGEMENT SYSTEM\");\nSystem.out.println(\"Team 19 | Code v1 - Project skeleton\");\nSystem.out.println(\"1. Load input data\");\nSystem.out.println(\"2. Generate timetable automatically\");\nSystem.out.println(\"3. View timetable by year group\");\nSystem.out.println(\"4. View all scheduled sessions\");\nSystem.out.println(\"5. View unscheduled sessions and warnings\");\nSystem.out.println(\"6. Modify / remove an assignment\");\nSystem.out.println(\"7. Generate classroom request email\");\nSystem.out.println(\"8. Save timetable and reports\");\nSystem.out.println(\"0. Exit\");\nSystem.out.print(\"Select an option: \");"
+      ],
+      [
+        "private void handleChoice(int choice)",
+        "if (choice >= 1 && choice <= 8) {\n    System.out.println(\"Option \" + choice + \": not implemented in Code v1.\");\n} else {\n    System.out.println(\"Unknown option. Choose 0-8.\");\n}"
+      ]
+    ],
+    "role": "Runs the console menu, handles invalid input and exits cleanly; feature options are visibly unfinished."
+  }
+}
