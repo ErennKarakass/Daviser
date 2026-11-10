@@ -38,22 +38,54 @@ The full menu appears. Options 1-8 clearly say they are not implemented. Invalid
 | 0 | Exit (implemented) |
 
 ## Input / output
-Planned files: `data/courses.csv`, `data/instructors.txt`, `data/rooms.csv`, `data/constraints.txt`. Exact format: SRS §5. Included sample files are illustrative, not instructor-approved. Input processing is not implemented in v1. Future outputs go under `output/`; no real emails will be sent.
+
+Planned input files:
+- data/courses.csv
+- data/instructors.txt
+- data/rooms.csv
+- data/constraints.txt
+
+The planned formats are described in SRS Section 5.
+Input processing is not implemented in Code v1.
+Future output files will be stored under output/.
+Room-request messages will be saved as text drafts.
 
 ## Documents
-- `docs/requirements/SRS-v2.pdf`
-- `docs/design/SDD-v2.pdf`
-- `docs/design/class-diagram.dot` and `.png`
-- `docs/design/scheduling-flowchart.svg`, `.dot` and `.png`
-- `docs/design/Class-Member-Inventory.md`
-- `docs/checkpoints/Checkpoint-1-Report.pdf` (**evidence pending, not final**)
-- `docs/team-agreement.md` (**proposed, team confirmation required**)
-- `docs/releases/Code-v1-Release-Notes.md` (**draft**)
-- `docs/testing/Assistant-Verification.md` (not student-run evidence)
-- `docs/editable/`: editable English text sources for the PDFs
+
+- [SRS v2](docs/requirements/SRS-v2.pdf)
+- [SDD v2](docs/design/SDD-v2.pdf)
+- [Class diagram](docs/design/class-diagram.png)
+- [Scheduling flowchart](docs/design/scheduling-flowchart.png)
+- [Class member inventory](docs/design/Class-Member-Inventory.md)
+- [Team agreement](docs/team-agreement.md)
+- [Checkpoint 1 report](Checkpoint-1-Report.pdf)
 
 ## Version status
-Code v1 files are prepared. No `code-v1` Git tag, published Release, remote commit count, or student machine run is claimed by this package. Earlier v1 documents were not supplied; no historical submission dates have been created.
 
-## Limitations / AI use
-This skeleton cannot generate timetables yet. SDD describes planned functionality explicitly. ChatGPT (Codex) helped revise documents, design and generate the skeleton and run assistant-environment checks. Both students must review, understand, test and accurately declare their use before submission.
+The Code v1 Java skeleton, SRS v2, SDD v2 and README
+have been uploaded to the repository.
+Both team members have commits in the repository.
+
+Semih ran Main in IntelliJ IDEA using JDK 21 on macOS.
+The menu appeared, option 1 displayed the expected
+not-implemented message, invalid input was rejected,
+and option 0 exited with "Goodbye."
+
+Eren's local run and terminal runs by both members
+remain to be verified.
+The code-v1 tag and GitHub release are pending.
+
+## Limitations
+
+Code v1 provides the class structure and a runnable menu.
+Options 1–8 are not implemented yet.
+Automatic scheduling, input processing, conflict checking,
+manual editing and report generation are planned features.
+
+## AI use
+
+ChatGPT (Codex) assisted with document revision, design,
+Java skeleton generation and checks in the assistant
+environment. These checks are separate from student
+testing. Both team members are responsible for reviewing,
+understanding and validating the submitted work.
