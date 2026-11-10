@@ -73,7 +73,7 @@ and option 0 exited with "Goodbye."
 
 Eren's local run and terminal runs by both members
 remain to be verified.
-The code-v1 tag and GitHub release are pending.
+Code v1 is published: [Release notes](https://github.com/ErennKarakass/Daviser/releases/tag/code-v1).
 
 ## Limitations
 
