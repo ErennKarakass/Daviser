@@ -58,7 +58,7 @@ Room-request messages will be saved as text drafts.
 - [Scheduling flowchart](docs/design/scheduling-flowchart.png)
 - [Class member inventory](docs/design/Class-Member-Inventory.md)
 - [Team agreement](docs/team-agreement.md)
-- [Checkpoint 1 report](Checkpoint-1-Report.pdf)
+- [Checkpoint 1 report](docs/checkpoints/Checkpoint-1-Report.pdf)
 
 ## Version status
 
